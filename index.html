@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yadnesh Chavan — Security Analyst & Smart Contract Auditor</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg-2: #0f172a;
+  --card: #131a2e;
+  --card-2: #1a2340;
+  --border: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #22d3ee;
+  --accent-2: #a78bfa;
+  --green: #4ade80;
+  --amber: #fbbf24;
+  --gradient: linear-gradient(135deg, #22d3ee 0%, #a78bfa 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Animated background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(167, 139, 250, 0.08), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(10, 14, 26, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  padding: 16px 0;
+}
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.logo::before { content: '> '; color: var(--accent-2); }
+nav ul { display: flex; gap: 28px; list-style: none; }
+nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: relative;
+}
+nav a:hover { color: var(--accent); }
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: var(--gradient);
+  transition: width 0.3s;
+}
+nav a:hover::after { width: 100%; }
+.menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0 60px;
+  position: relative;
+}
+.hero-content { max-width: 900px; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 24px;
+}
+.hero-badge .dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.hero h1 {
+  font-size: clamp(40px, 8vw, 76px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.hero h1 .name {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .role {
+  font-size: clamp(18px, 3vw, 24px);
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+.hero .role span { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.hero .tagline {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 620px;
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  padding: 13px 26px;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.25s;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--gradient);
+  color: var(--bg);
+  font-weight: 600;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(34, 211, 238, 0.3); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.stat { text-align: left; }
+.stat-num {
+  font-size: 34px;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+/* SECTIONS */
+section {
+  padding: 90px 0;
+  position: relative;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.section-label::before { content: '// '; color: var(--text-dim); }
+.section-title {
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 40px;
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.about-text p {
+  font-size: 16px;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+  line-height: 1.8;
+}
+.about-text strong { color: var(--text); font-weight: 600; }
+.tech-list {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.tech-list h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+.tech-list ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tech-list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding-left: 16px;
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+}
+.tech-list li::before {
+  content: '▸';
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+}
+
+/* EXPERIENCE TIMELINE */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
+}
+.exp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+  transition: all 0.3s;
+}
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: -32px; top: 30px;
+  width: 18px; height: 18px;
+  background: var(--card);
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--bg);
+}
+.exp-card:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+  box-shadow: 0 12px 32px rgba(34, 211, 238, 0.1);
+}
+.exp-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.exp-role { font-size: 17px; font-weight: 600; color: var(--text); }
+.exp-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim); }
+.exp-company { color: var(--accent); font-weight: 500; margin-bottom: 12px; font-size: 14px; }
+.exp-card ul { list-style: none; }
+.exp-card li {
+  font-size: 14px;
+  color: var(--text-dim);
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+.exp-card li::before {
+  content: '▹';
+  color: var(--accent-2);
+  position: absolute;
+  left: 0;
+}
+
+/* BOUNTIES */
+.bounties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.bounty-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.bounty-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+.bounty-card:hover { transform: translateY(-4px); border-color: var(--green); }
+.bounty-card > * { position: relative; z-index: 1; }
+.bounty-amount {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 6px;
+}
+.bounty-company { font-size: 15px; color: var(--text); font-weight: 500; }
+.bounty-tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 10px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 100px;
+  font-size: 11px;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* HALL OF FAME */
+.hof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.hof-col {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px;
+}
+.hof-col h3 {
+  font-size: 16px;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+}
+.hof-col h3::before { content: '# '; color: var(--text-dim); }
+.hof-col ul { list-style: none; }
+.hof-col li {
+  font-size: 14px;
+  color: var(--text-dim);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.2s;
+}
+.hof-col li:last-child { border-bottom: none; }
+.hof-col li:hover { color: var(--text); }
+.hof-col li::before {
+  content: '🏆';
+  font-size: 14px;
+}
+
+/* CONTACT */
+.contact-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 56px 40px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(34, 211, 238, 0.08), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(167, 139, 250, 0.08), transparent 50%),
+    var(--card);
+}
+.contact-box h2 {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+}
+.contact-box p {
+  color: var(--text-dim);
+  font-size: 16px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contact-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* FOOTER */
+footer {
+  padding: 30px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav ul { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-2); flex-direction: column; padding: 20px; gap: 16px; border-bottom: 1px solid var(--border); }
+  nav ul.open { display: flex; }
+  .menu-toggle { display: block; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hof-grid { grid-template-columns: 1fr; }
+  .exp-header { flex-direction: column; }
+}
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease-out; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo">yadnesh.sec</div>
+    <button class="menu-toggle" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#bounties">Bounties</a></li>
+      <li><a href="#hof">Hall of Fame</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>Available for internships & audits</span>
+      </div>
+      <h1>Hi, I'm <span class="name">Yadnesh Chavan.</span></h1>
+      <p class="role">Security Analyst <span>&</span> Smart Contract Auditor</p>
+      <p class="tagline">
+        I break Web3 protocols and Web2 apps for a living — hunting critical bugs across
+        DeFi contracts, dApps, and enterprise applications. $15,000+ in verified bounty
+        payouts and recognitions across 15+ Hall of Fame programs.
+      </p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="#experience" class="btn btn-ghost">View experience</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">$15K+</div>
+          <div class="stat-label">Bounties Earned</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Halls of Fame</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Security Roles</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">7</div>
+          <div class="stat-label">HackenProof Programs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container reveal">
+    <div class="section-label">01. About Me</div>
+    <h2 class="section-title">Building secure Web3 & Web2 systems</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Cyber Security professional</strong> from Pune, currently pursuing
+          a B.Sc. in Cyber and Digital Science at MIT ACSC, Pune University. My focus is
+          <strong>smart contract auditing</strong> — hunting business-logic and protocol-level
+          vulnerabilities in Solidity contracts.
+        </p>
+        <p>
+          Alongside Web3, I actively run <strong>Web2 penetration tests</strong> on public
+          bug-bounty programs (H&M, Samsung, Zebpay, 3Commas, Chargezoom, and more), with
+          <strong>$15,000+ in verified payouts</strong> and recognitions in 15+ Hall of Fame
+          programs including Accenture, Etherscan, Shippit, and Cricket Australia.
+        </p>
+        <p>
+          I care about <strong>real impact</strong> — Foundry-based PoCs that break protocol
+          invariants, not padded findings. Currently interning with <strong>RWA Inc.</strong>
+          as a Smart Contract Auditor.
+        </p>
+      </div>
+      <div class="tech-list">
+        <h4>Stack & Tools</h4>
+        <ul>
+          <li>Solidity</li>
+          <li>EVM</li>
+          <li>Foundry</li>
+          <li>Slither</li>
+          <li>Aderyn</li>
+          <li>Semgrep</li>
+          <li>Burp Suite</li>
+          <li>Web3.py</li>
+          <li>OWASP</li>
+          <li>DeFi</li>
+          <li>Halmos</li>
+          <li>Echidna</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container reveal">
+    <div class="section-label">02. Experience</div>
+    <h2 class="section-title">Where I've worked</h2>
+    <div class="timeline">
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Smart Contract Auditor & Web Security Analyst — Intern</div>
+          <div class="exp-meta">Remote · 9 Months · 2025 – Present</div>
+        </div>
+        <div class="exp-company">RWA Inc.</div>
+        <ul>
+          <li>Audit Ethereum-based smart contracts through manual review and industry security best practices.</li>
+          <li>Test dApps for business-logic flaws and protocol-level vulnerabilities.</li>
+          <li>Perform Web2 security testing alongside blockchain audits for end-to-end coverage.</li>
+          <li>Develop proof-of-concept exploits and produce detailed vulnerability documentation.</li>
+          <li><strong>Tools:</strong> Burp Suite, Foundry, Slither, Manual Code Review.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Security Analyst</div>
+          <div class="exp-meta">On-site · 3 Months · 2024</div>
+        </div>
+        <div class="exp-company">BloggersCon Vision Pvt. Ltd.</div>
+        <ul>
+          <li>Conducted penetration testing across multiple web applications and internal systems.</li>
+          <li>Delivered actionable remediation recommendations to development teams.</li>
+          <li>Prepared documentation and executive-level reports summarizing findings.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Security Analyst Intern</div>
+          <div class="exp-meta">On-site · 2 Months · 2024</div>
+        </div>
+        <div class="exp-company">EncodersPro Pvt. Ltd.</div>
+        <ul>
+          <li>Assisted senior analysts in vulnerability assessments and penetration tests.</li>
+          <li>Collaborated with the team to analyze findings and propose remediation steps.</li>
+          <li>Prepared documentation and structured reports summarizing test results.</li>
+        </ul>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-role">Security Analyst Intern</div>
+          <div class="exp-meta">On-site · 1 Month · 2024</div>
+        </div>
+        <div class="exp-company">Gurugram Cyber Police</div>
+        <ul>
+          <li>Supported cyber police officials on real-world cybercrime investigations.</li>
+          <li>Hands-on experience with malware analysis and digital-forensics lab operations.</li>
+          <li>Assisted with bug bounty triage, dark-web monitoring, and case-study analysis.</li>
+          <li>Contributed to strengthening internal cyber defense strategies.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BOUNTIES -->
+<section id="bounties">
+  <div class="container reveal">
+    <div class="section-label">03. Bug Bounty Wins</div>
+    <h2 class="section-title">Verified payouts</h2>
+    <div class="bounties-grid">
+      <div class="bounty-card">
+        <div class="bounty-amount">€3,000</div>
+        <div class="bounty-company">H&M</div>
+        <span class="bounty-tag">Web2</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$2,700</div>
+        <div class="bounty-company">Chargezoom</div>
+        <span class="bounty-tag">Web2</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$2,700</div>
+        <div class="bounty-company">Zebpay</div>
+        <span class="bounty-tag">Fintech</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$2,500</div>
+        <div class="bounty-company">Samsung</div>
+        <span class="bounty-tag">Enterprise</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$1,800</div>
+        <div class="bounty-company">3Commas</div>
+        <span class="bounty-tag">Fintech</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$1,700</div>
+        <div class="bounty-company">Clicktime</div>
+        <span class="bounty-tag">Web2</span>
+      </div>
+      <div class="bounty-card">
+        <div class="bounty-amount">$1,500</div>
+        <div class="bounty-company">Alfabit</div>
+        <span class="bounty-tag">Web3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HALL OF FAME -->
+<section id="hof">
+  <div class="container reveal">
+    <div class="section-label">04. Hall of Fame</div>
+    <h2 class="section-title">Recognized by</h2>
+    <div class="hof-grid">
+      <div class="hof-col">
+        <h3>Web2 Programs</h3>
+        <ul>
+          <li>Cricket Australia — VDP</li>
+          <li>Accenture — Hall of Fame</li>
+          <li>Shippit — Hall of Fame</li>
+          <li>Etherscan — Bug Bounty</li>
+          <li>TU Delft — Hall of Fame</li>
+          <li>Norkart — Trust Center</li>
+          <li>Inflectra — Hall of Fame</li>
+          <li>CookieYes — Appreciation Cert</li>
+          <li>1mg & LaunchDarkly — Swag</li>
+        </ul>
+      </div>
+      <div class="hof-col">
+        <h3>Web3 · HackenProof</h3>
+        <ul>
+          <li>EXMO</li>
+          <li>RTree Finance</li>
+          <li>STBL</li>
+          <li>Bitkub Capital Group</li>
+          <li>Whitechain Bridge</li>
+          <li>FlowX CLMM Smart Contracts</li>
+          <li>Layer3 Smart Contracts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container reveal">
+    <div class="section-label">05. Get in touch</div>
+    <div class="contact-box">
+      <h2>Let's build something secure.</h2>
+      <p>Open to security internships, smart contract audit engagements, and freelance bug-bounty collaborations. Fastest reply on email or LinkedIn.</p>
+      <div class="contact-links">
+        <a href="mailto:yadneshbug@gmail.com" class="btn btn-primary">✉ yadneshbug@gmail.com</a>
+        <a href="https://linkedin.com/in/yadneshchavhan-9981a42a3" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        <a href="tel:+917249878939" class="btn btn-ghost">+91 7249878939</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Designed & built by Yadnesh Chavan · Pune, India · © 2026
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Close mobile menu on link click
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('nav ul').classList.remove('open'));
+});
+</script>
+
+</body>
+</html>
